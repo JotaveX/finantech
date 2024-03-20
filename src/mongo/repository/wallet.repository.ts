@@ -29,4 +29,8 @@ export class WalletRepository{
     async deleteWallet(walletId: string): Promise<Wallet>{
         return this.walletModel.findByIdAndDelete(walletId);
     }
+
+    async addFinanceToWallet(walletId: string, financeId: string): Promise<Wallet>{
+        return this.walletModel.findByIdAndUpdate(walletId, {$push: {finances: financeId}}, {new: true});
+    }
 }

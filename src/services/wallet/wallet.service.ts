@@ -27,4 +27,8 @@ export class WalletService {
     async deleteWallet(wallet: any): Promise<any>{
         return this.walletRepository.deleteWallet(wallet);
     }
+
+    async addFinanceToWallet(wallet: any, finance: any): Promise<any>{
+        return this.walletRepository.addFinanceToWallet(wallet, finance);
+    }
 }

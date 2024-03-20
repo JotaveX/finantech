@@ -32,4 +32,9 @@ export class WalletController {
     async deleteWallet(@Param('id') id: string): Promise<any>{
         return this.walletService.deleteWallet(id);
     }
+
+    @Post(':id/finance')
+    async addFinanceToWallet(@Param('id') id: string, @Body() finance: any): Promise<any>{
+        return this.walletService.addFinanceToWallet(id, finance);
+    }
 }
