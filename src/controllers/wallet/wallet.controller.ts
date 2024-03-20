@@ -37,4 +37,9 @@ export class WalletController {
     async addFinanceToWallet(@Param('id') id: string, @Body() finance: any): Promise<any>{
         return this.walletService.addFinanceToWallet(id, finance);
     }
+
+    @Get(':id/balance')
+    async calculateWalletBalance(@Param('id') id: string): Promise<any>{
+        return this.walletService.calculateWalletBalance(id);
+    }
 }

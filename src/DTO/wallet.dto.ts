@@ -28,7 +28,6 @@ export class wallet{
     @Type(() => autoFinanceDTO)
     readonly user: UserDTO;
 
-    @IsNotEmpty()
     @IsNumber()
     readonly balance: number;
 }

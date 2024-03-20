@@ -33,4 +33,14 @@ export class WalletRepository{
     async addFinanceToWallet(walletId: string, financeId: string): Promise<Wallet>{
         return this.walletModel.findByIdAndUpdate(walletId, {$push: {finances: financeId}}, {new: true});
     }
+
+    async calculateWalletBalance(walletId: string): Promise<number>{
+        const wallet = await this.walletModel.findById(walletId).populate('finances').exec();
+        const finances = wallet.finance;
+        let balance = 0;
+        for (let finance of finances){
+            balance += finance.value;
+        }
+        return balance;
+    }
 }
