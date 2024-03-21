@@ -23,5 +23,5 @@ export interface Wallet extends Document {
         readonly password: string;
         readonly age: number;
     }
-    readonly balance: number;
+    balance: number;
 }

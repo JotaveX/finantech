@@ -28,10 +28,6 @@ export class WalletService {
         return this.walletRepository.deleteWallet(wallet);
     }
 
-    async addFinanceToWallet(wallet: any, finance: any): Promise<any>{
-        return this.walletRepository.addFinanceToWallet(wallet, finance);
-    }
-
     async calculateWalletBalance(wallet: any): Promise<any>{
         return this.walletRepository.calculateWalletBalance(wallet);
     }

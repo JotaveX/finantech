@@ -6,12 +6,15 @@ import { Wallet } from "../interfaces/wallet.interface";
 @Injectable()
 export class WalletRepository{
     constructor(
-        @InjectModel('Wallet') private readonly walletModel: Model<Wallet>
+        @InjectModel('Wallet') private walletModel: Model<Wallet>
     ) {}
 
     async createWallet(wallet: Wallet): Promise<Wallet>{
+        wallet.balance = 0;
         const newWallet = new this.walletModel(wallet);
-        return newWallet.save();
+        let walletDB = newWallet.save();
+        this.calculateWalletBalance(await walletDB);
+        return newWallet;
     }
 
     async getAllWallets(): Promise<Wallet[]>{
@@ -30,12 +33,7 @@ export class WalletRepository{
         return this.walletModel.findByIdAndDelete(walletId);
     }
 
-    async addFinanceToWallet(walletId: string, financeId: string): Promise<Wallet>{
-        return this.walletModel.findByIdAndUpdate(walletId, {$push: {finances: financeId}}, {new: true});
-    }
-
-    async calculateWalletBalance(walletId: string): Promise<number>{
-        const wallet = await this.walletModel.findById(walletId).populate('finances').exec();
+    async calculateWalletBalance(wallet: Wallet): Promise<number>{
         const finances = wallet.finance;
         let balance = 0;
         for (let finance of finances){
