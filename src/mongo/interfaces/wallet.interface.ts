@@ -4,7 +4,7 @@ import * as mongoose from "mongoose";
 export interface Wallet extends Document {
     readonly _id: mongoose.Schema.Types.ObjectId;
     readonly name: string;
-    readonly finance: Array<{
+    finance: Array<{
         readonly reason: string;
         readonly value: number;
         readonly isWithdraw: boolean;

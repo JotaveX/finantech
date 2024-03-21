@@ -31,4 +31,8 @@ export class WalletService {
     async calculateWalletBalance(wallet: any): Promise<any>{
         return this.walletRepository.calculateWalletBalance(wallet);
     }
+
+    async deleteFinanceFromWallet(idWallet: string, idFinance: string): Promise<any>{
+        return this.walletRepository.deleteFinanceFromWallet(idWallet, idFinance);
+    }
 }

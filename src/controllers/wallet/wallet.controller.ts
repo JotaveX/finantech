@@ -37,4 +37,9 @@ export class WalletController {
     async calculateWalletBalance(@Param('id') id: string): Promise<any>{
         return this.walletService.calculateWalletBalance(id);
     }
+
+    @Delete(':id/delete-finance/:idFinance')
+    async deleteFinanceFromWallet(@Param('id') id: string, @Param('idFinance') idFinance: string): Promise<any>{
+        return this.walletService.deleteFinanceFromWallet(id, idFinance);
+    }
 }

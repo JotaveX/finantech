@@ -2,11 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Wallet } from "../interfaces/wallet.interface";
+import { FinanceRepository } from "./finance.repository";
 
 @Injectable()
 export class WalletRepository{
     constructor(
-        @InjectModel('Wallet') private walletModel: Model<Wallet>
+        @InjectModel('Wallet') private walletModel: Model<Wallet>,
+        private readonly financeRepository: FinanceRepository
     ) {}
 
     async createWallet(wallet: Wallet): Promise<Wallet>{
@@ -39,6 +41,21 @@ export class WalletRepository{
         for (let finance of finances){
             balance += finance.value;
         }
+        wallet.balance = balance;
+        await wallet.save();
         return balance;
+    }
+
+    async deleteFinanceFromWallet(idWallet: string, idFinance: string): Promise<Wallet>{
+        let finance = await this.financeRepository.getFinanceById(idFinance);
+        let walletDB = await this.walletModel.findById(idWallet);
+        let wallet = await walletDB;
+        let finances = wallet.finance;
+        let index = finances.indexOf(finance);
+        finances.splice(index, 1);
+        wallet.finance = finances;
+        this.financeRepository.deleteFinance(idFinance);
+        this.calculateWalletBalance(wallet);
+        return wallet;
     }
 }
